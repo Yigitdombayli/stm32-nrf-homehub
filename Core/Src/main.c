@@ -18,12 +18,21 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "FreeRTOS.h"
 #include "cmsis_os.h"
+#include "cmsis_os2.h"
+#include "spi.h"
+#include "stm32g0xx_ll_utils.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "systemConf.h"
+#include "stm32g0xx_ll_bus.h"
+#include "stm32g0xx_ll_gpio.h"
+#include "stm32g0xx_ll_spi.h"
+#include "nrf24l01.h"
 
 /* USER CODE END Includes */
 
@@ -45,7 +54,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+TaskHandle_t Task1 = NULL;
 
+uint8_t data = 0x12;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,7 +68,10 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void Task1Handler(void *params){
+  while (1) {
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -90,8 +104,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+ // MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+  SystemConfig();
 
+  xTaskCreate(Task1Handler, "Task1", 128, NULL, 2, &Task1);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -107,6 +124,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
