@@ -22,12 +22,20 @@ void GPIO_Config(){
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
     LL_GPIO_Init(GPIOA,&GPIO_InitStruct);
  
-    // PB0 -> CSN Signal output for nrf
+    // PB0 -> CSN Signal output for nrf -- PB1 -> CE Signal Output for nrf
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Pin = LL_GPIO_PIN_0;
+    GPIO_InitStruct.Pin = LL_GPIO_PIN_0 | LL_GPIO_PIN_1;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    // PA0 -> Transmit Successful LED -- PA1 -> Transmit Fail LED 
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+    GPIO_InitStruct.Pin = LL_GPIO_PIN_0 | LL_GPIO_PIN_1;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+
+    LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
 void SPI_Config(){

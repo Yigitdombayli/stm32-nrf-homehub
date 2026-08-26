@@ -22,6 +22,7 @@
 #include "cmsis_os.h"
 #include "cmsis_os2.h"
 #include "spi.h"
+#include "stm32g071xx.h"
 #include "stm32g0xx_ll_utils.h"
 #include "usart.h"
 #include "gpio.h"
@@ -33,6 +34,7 @@
 #include "stm32g0xx_ll_gpio.h"
 #include "stm32g0xx_ll_spi.h"
 #include "nrf24l01.h"
+#include <stdint.h>
 
 /* USER CODE END Includes */
 
@@ -55,8 +57,8 @@
 
 /* USER CODE BEGIN PV */
 TaskHandle_t Task1 = NULL;
-
-uint8_t data = 0x12;
+uint8_t data[5] = {0x12, 0x34, 0x56, 0x78, 0x90};
+uint8_t result =0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,6 +72,20 @@ void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN 0 */
 void Task1Handler(void *params){
   while (1) {
+    nrf24_Transmit(data, 5); 
+    do {
+        result = nrf24_CheckTransmission();
+    } while (result == 2); 
+    
+    if (result == 1) {
+        LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+        LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
+    } else {
+        LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
+        LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
+    }
+    
+    osDelay(1000);
   }
 }
 /* USER CODE END 0 */
@@ -108,6 +124,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
   SystemConfig();
 
+
+  /************************************ Configuration nrf ************************/
+  nrf24_DefaultConfiguration(); 
+  nrf24_AwakeForTx();          
+  LL_mDelay(2);
+
+  /************************************  TASK CREATE  ****************************/
   xTaskCreate(Task1Handler, "Task1", 128, NULL, 2, &Task1);
   /* USER CODE END 2 */
 
