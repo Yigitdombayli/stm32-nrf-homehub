@@ -19,15 +19,18 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "spi.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stm32f1xx_ll_gpio.h"
 #include "stm32f1xx_ll_spi.h"
+#include "stm32f1xx_ll_utils.h"
 #include "systemConf.h"
 #include "nrf24l01.h"
 #include <stdint.h>
+#include <dht11.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +52,10 @@
 
 /* USER CODE BEGIN PV */
 uint8_t reData[5] = {0};
+uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
+uint16_t SUM;
+uint8_t Presence = 0;
+uint8_t result =0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,10 +110,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
+//  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 SystemConfig();
 nrf24_DefaultConfiguration(); 
-nrf24_AwakeForRx();           
+nrf24_AwakeForTx();           
 LL_mDelay(2);
 
 CE_Enable();
@@ -114,20 +122,34 @@ CE_Enable();
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-        if (nrf24_DataAvailable() == 1) {
-        
-        nrf24_Receive(reData, 5);
-        if(reData[0] == 0x12 && reData[1] == 0x34 && reData[2] == 0x56) {
-          LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
-          LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
-        }
-        else {
-          LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
-          LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
-        }
-    }
+    while (1)
+    {
+      DHT11_Start();
+      Presence = DHT11_Check_Response();
+      
+      if (Presence == 1) {
+          Rh_byte1   = DHT11_Read(); // Relative Humidity - Integer part (e.g., 45%)
+          Rh_byte2   = DHT11_Read(); // Relative Humidity - Decimal part (Always 0 for DHT11)
+          Temp_byte1 = DHT11_Read(); // Temperature - Integer part (e.g., 24°C)
+          Temp_byte2 = DHT11_Read(); // Temperature - Decimal part (Always 0 for DHT11)
+          SUM        = DHT11_Read(); // Checksum byte (Rh1 + Rh2 + Temp1 + Temp2)
+          reData[0] = Rh_byte1;
+          reData[1] = Rh_byte2;
+          reData[2] = Temp_byte1;
+          reData[3] = Temp_byte2;
+          reData[4] = SUM;
+          if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
+            LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_0);
+            nrf24_Transmit(reData, 5);
+                do {
+                result = nrf24_CheckTransmission();
+                } while (result == 2); 
+          }
+      }
+      else {
+          LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1);
+      }
+      LL_mDelay(2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

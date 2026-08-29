@@ -57,7 +57,7 @@
 
 /* USER CODE BEGIN PV */
 TaskHandle_t Task1 = NULL;
-uint8_t data[5] = {0x12, 0x34, 0x56, 0x78, 0x90};
+uint8_t data[5] = {0};
 uint8_t result =0;
 /* USER CODE END PV */
 
@@ -72,21 +72,17 @@ void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN 0 */
 void Task1Handler(void *params){
   while (1) {
-    nrf24_Transmit(data, 5); 
-    do {
-        result = nrf24_CheckTransmission();
-    } while (result == 2); 
-    
-    if (result == 1) {
-        LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
-        LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
-    } else {
-        LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
-        LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
-    }
-    
-    osDelay(1000);
-  }
+        if (nrf24_DataAvailable() == 1) {
+        
+        nrf24_Receive(data, 5);
+          LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+          LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
+        }
+        else{
+          LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
+          LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
+        }
+      }
 }
 /* USER CODE END 0 */
 
@@ -126,9 +122,8 @@ int main(void)
 
   /************************************ Configuration nrf ************************/
   nrf24_DefaultConfiguration(); 
-  nrf24_AwakeForTx();          
-  
-  // LL_mDelay(2); YERİNE AŞAĞIDAKİNİ YAZIN:
+  nrf24_AwakeForRx();          
+  CE_Enable();
   HAL_Delay(2);
 
   /************************************  TASK CREATE  ****************************/

@@ -2,10 +2,12 @@
 #include "stm32f1xx_ll_bus.h"
 #include "stm32f1xx_ll_gpio.h"
 #include "stm32f1xx_ll_spi.h"
+#include "stm32f1xx_ll_tim.h"
 
 void SystemConfig(){
     GPIO_Config();
     SPI_Config();
+    Timer_Config();
 }
 
 void GPIO_Config(){
@@ -59,4 +61,17 @@ void SPI_Config(){
 
     /* Enable SPI Peripheral */
     LL_SPI_Enable(SPI1);
+}
+
+// Timer count up every 1 us
+void Timer_Config(){
+    LL_TIM_InitTypeDef TIM_InitStruct = {0};
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
+	TIM_InitStruct.Prescaler = 63;
+	TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
+	TIM_InitStruct.RepetitionCounter = 0;
+	TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+	TIM_InitStruct.Autoreload = 0xFFFF-1;
+	LL_TIM_Init(TIM1, &TIM_InitStruct);
+	LL_TIM_EnableCounter(TIM1);
 }

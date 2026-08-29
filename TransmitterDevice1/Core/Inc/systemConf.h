@@ -5,3 +5,4 @@
 void SystemConfig();
 void GPIO_Config();
 void SPI_Config();
+void Timer_Config();
