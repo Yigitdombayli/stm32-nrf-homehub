@@ -1,0 +1,16 @@
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/bin/Debug/net10.0/IoTBackend.Repository.deps.json
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/bin/Debug/net10.0/IoTBackend.Repository.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/bin/Debug/net10.0/IoTBackend.Repository.pdb
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/bin/Debug/net10.0/IoTBackend.Core.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/bin/Debug/net10.0/IoTBackend.Core.pdb
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.csproj.AssemblyReference.cache
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.GeneratedMSBuildEditorConfig.editorconfig
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.AssemblyInfoInputs.cache
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.AssemblyInfo.cs
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.csproj.CoreCompileInputs.cache
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.sourcelink.json
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBacke.4E93A532.Up2Date
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/refint/IoTBackend.Repository.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/IoTBackend.Repository.pdb
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Repository/obj/Debug/net10.0/ref/IoTBackend.Repository.dll

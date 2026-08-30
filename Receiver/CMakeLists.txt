@@ -47,6 +47,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/Src/systemConf.c
     Core/Src/nrf24l01.c
+    Core/Src/uart.c
 )
 
 # Add include paths

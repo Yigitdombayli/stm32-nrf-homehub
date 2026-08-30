@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - IoT Dashboard</title>
+    <link rel="stylesheet" href="~/css/layout.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>IoT Merkez</h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item">📊 Dashboard</a>
+                <a href="/Device/Index" class="menu-item">📡 Sensörler</a>
+                <a href="#" class="menu-item">⚙️ Sistem Ayarları</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            @RenderBody() 
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

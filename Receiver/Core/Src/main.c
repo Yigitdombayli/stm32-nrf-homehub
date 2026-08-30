@@ -35,7 +35,10 @@
 #include "stm32g0xx_ll_spi.h"
 #include "nrf24l01.h"
 #include <stdint.h>
-
+#include "queue.h"
+#include <stdio.h>
+#include "string.h"
+#include "uart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +59,16 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-TaskHandle_t Task1 = NULL;
+/******************************** QUEUES *************************************/
+QueueHandle_t UartQueue;
+
+/******************************** TASKS *************************************/
+TaskHandle_t UART_Task = NULL;
+TaskHandle_t nrf24_ReceiveTask = NULL;
+
+
+/************************* PRIVATE VARIABLES ******************************/
+DHT11_Frame dht11_frame = {0};
 uint8_t data[5] = {0};
 uint8_t result =0;
 /* USER CODE END PV */
@@ -70,20 +82,39 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void Task1Handler(void *params){
+void nrf24_ReceiveTaskHandler(void *params){
   while (1) {
         if (nrf24_DataAvailable() == 1) {
         
-        nrf24_Receive(data, 5);
+          nrf24_Receive(dht11_frame .data, 5);
+          dht11_frame .startByte = DHT11_STARTBYTE;
+          dht11_frame.stopByte = DHT11_STOPBYTE;
           LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
           LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
+          xQueueSend(UartQueue, &dht11_frame, 0);
         }
         else{
           LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
           LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
         }
+        vTaskDelay(pdMS_TO_TICKS(10));
       }
 }
+void UART_TaskHandler(void *params){
+  DHT11_Frame received_data;
+  while (1) {
+               if (xQueueReceive(UartQueue, &received_data, portMAX_DELAY) == pdPASS) {
+              uint8_t *frame_ptr = (uint8_t *)&received_data;
+              
+              for(int i = 0; i < sizeof(DHT11_Frame); i++) {
+                  while(!LL_USART_IsActiveFlag_TXE(USART2)); 
+                  LL_USART_TransmitData8(USART2, frame_ptr[i]);
+            }
+        }
+     }
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -115,7 +146,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
+  //MX_USART2_UART_Init();
  // MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   SystemConfig();
@@ -125,9 +156,12 @@ int main(void)
   nrf24_AwakeForRx();          
   CE_Enable();
   HAL_Delay(2);
+  /*********************************** CREATE QUEUES *****************************/
+  UartQueue = xQueueCreate(10, sizeof(DHT11_Frame));
 
   /************************************  TASK CREATE  ****************************/
-  xTaskCreate(Task1Handler, "Task1", 128, NULL, 2, &Task1);
+  xTaskCreate(nrf24_ReceiveTaskHandler, "nrf24_Receive", 128, NULL, 3, &nrf24_ReceiveTask);
+  xTaskCreate(UART_TaskHandler, "UART",128,NULL,2,&UART_Task);
   /* USER CODE END 2 */
 
   /* Init scheduler */

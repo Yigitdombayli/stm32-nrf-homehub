@@ -1,0 +1,12 @@
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/bin/Debug/net10.0/IoTBackend.Core.deps.json
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/bin/Debug/net10.0/IoTBackend.Core.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/bin/Debug/net10.0/IoTBackend.Core.pdb
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.AssemblyInfoInputs.cache
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.AssemblyInfo.cs
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.csproj.CoreCompileInputs.cache
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.sourcelink.json
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/refint/IoTBackend.Core.dll
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/IoTBackend.Core.pdb
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/obj/Debug/net10.0/ref/IoTBackend.Core.dll

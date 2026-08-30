@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="IoTBackend.API/IoTBackend.API.csproj" />
+  <Project Path="IoTBackend.Core/IoTBackend.Core.csproj" />
+  <Project Path="IoTBackend.Repository/IoTBackend.Repository.csproj" />
+  <Project Path="IoTBackend.Service/IoTBackend.Service.csproj" />
+</Solution>
