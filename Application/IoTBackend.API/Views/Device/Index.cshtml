@@ -40,7 +40,7 @@
                         <span style="background-color: #a6e3a1; color: #11111b; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Aktif</span>
                     </td>
                     <td style="padding: 12px;">
-                        <a href="#" style="color: #89b4fa; text-decoration: none;">Detay</a>
+                        <a asp-controller="Device" asp-action="Detail" asp-route-id="@item.Id" style="color: #89b4fa; text-decoration: none;">Detay</a>
                     </td>
                 </tr>
             }

@@ -7,10 +7,12 @@ namespace IoTBackend.API.Controllers
     public class DeviceController : Controller
     {
         private readonly IDeviceService _deviceService;
+        private readonly IServiceManager _manager;
 
-        public DeviceController(IDeviceService deviceService)
+        public DeviceController(IDeviceService deviceService, IServiceManager manager)
         {
             _deviceService = deviceService;
+            _manager = manager;
         }
 
         public async Task<IActionResult> Index()
@@ -33,6 +35,13 @@ namespace IoTBackend.API.Controllers
                 await _deviceService.AddDeviceAsync(device);
                 
                 return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var telemetries =await _manager.telemetryService.GetTelemetriesByDeviceIdAsync(id,false);
+            ViewBag.DeviceId = id;
+            return View(telemetries);
         }
     }
 }

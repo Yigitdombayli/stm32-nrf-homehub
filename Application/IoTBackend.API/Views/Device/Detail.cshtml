@@ -1,0 +1,53 @@
+@using IoTBackend.Core.Entities
+@model IEnumerable<TelemetryRecord>
+
+@{
+    ViewData["Title"] = "Sensör Listesi";
+}
+
+<link rel="stylesheet" href="~/css/Device/Detail.css" />
+
+<div class="telemetry-container">
+    
+    <div class="header-section">
+        <h1 class="page-title">Sensör Listesi (Cihaz ID: @ViewBag.DeviceId)</h1>
+        
+        <a href="/Telemetry/Create?deviceId=@ViewBag.DeviceId" class="btn-add-telemetry">
+            + Yeni Telemetri Ekle
+        </a>
+    </div>
+
+    <!-- Tablo Alanı -->
+    <div class="table-wrapper">
+        <table class="telemetry-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Measurement Type</th>
+                    <th>Value</th>
+                    <th>Time Stamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.MeasurementType</td>
+                            <td>@item.Value</td>
+                            <td>@item.Timestamp.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="empty-list">Empty List (Kayıt Bulunmuyor)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+.telemetry-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #89b4fa;
+    padding-bottom: 15px;
+}
+
+.page-title {
+    color: #cdd6f4;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+/* Telemetri Ekleme Butonu */
+.btn-add-telemetry {
+    background-color: #89b4fa;
+    color: #11111b;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-add-telemetry:hover {
+    background-color: #749dec;
+    color: #11111b;
+    transform: translateY(-2px);
+}
+
+/* Tablonun İçinde Bulunduğu Kutu */
+.table-wrapper {
+    background-color: #181825;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    overflow-x: auto;
+}
+
+/* Tablo Stilleri */
+.telemetry-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #cdd6f4;
+}
+
+.telemetry-table th {
+    text-align: left;
+    padding: 14px 12px;
+    background-color: #1e1e2e;
+    color: #89b4fa;
+    border-bottom: 2px solid #313244;
+}
+
+.telemetry-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #313244;
+}
+
+.telemetry-table tbody tr:hover {
+    background-color: #313244;
+    transition: background-color 0.2s ease;
+}
+
+/* Boş Liste Yazısı */
+.empty-list {
+    text-align: center;
+    color: #a6adc8;
+    padding: 30px !important;
+    font-style: italic;
+}

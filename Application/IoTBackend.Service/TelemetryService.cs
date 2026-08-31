@@ -22,4 +22,9 @@ public class TelemetryService : ITelemetryService
     {
         return _manager.telemetryRepository.GetTelemetriesByDeviceIdAsync(deviceId, trackChanges);
     }
+
+    public async Task UpdateTelemetryValueAsync(long id, double newValue)
+    {
+        await _manager.telemetryRepository.UpdateTelemetryValueAsync(id,newValue);
+    }
 }

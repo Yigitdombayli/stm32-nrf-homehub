@@ -27,5 +27,17 @@ namespace IoTBackend.Repository
                                     
             return telemetries;
         }
+        public async Task UpdateTelemetryValueAsync(long id, double newValue)
+        {
+            var telemetry = await _context.Telemetries.FindAsync(id);
+            
+            if (telemetry != null)
+            {
+                telemetry.Value = newValue;
+                telemetry.Timestamp = DateTime.UtcNow; 
+                _context.Telemetries.Update(telemetry);
+                await _context.SaveChangesAsync(); 
+            }
+        }
     }
 }

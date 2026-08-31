@@ -34,6 +34,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2aWNlL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/Views/Device/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2aWNlL0RldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/Views/Device/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2aWNlL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,6 +48,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/Views/Telemetry/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVsZW1ldHJ5L0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/Views/_ViewStart.cshtml]
