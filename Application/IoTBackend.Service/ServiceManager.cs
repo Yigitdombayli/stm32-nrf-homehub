@@ -6,12 +6,16 @@ namespace IoTBackend.Service
     {
         private readonly ITelemetryService _telemetryService;
         private readonly IDeviceService _deviceService;
-        public ServiceManager(ITelemetryService telemetryService, IDeviceService deviceService)
+        private readonly IUartService _uartService;
+        public ServiceManager(ITelemetryService telemetryService, IDeviceService deviceService, IUartService uartService)
         {
+            _uartService = uartService;
             _telemetryService = telemetryService;
             _deviceService = deviceService;
         }
         public ITelemetryService telemetryService => _telemetryService;
         public IDeviceService deviceService => _deviceService;
+
+        public IUartService uartService => _uartService;
     }
 }

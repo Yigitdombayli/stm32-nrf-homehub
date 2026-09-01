@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XwtmuM9R4D4=",
+  "dgSpecHash": "2WirRyXCZzE=",
   "success": true,
   "projectFilePath": "/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/IoTBackend.API.csproj",
   "expectedPackageFiles": [

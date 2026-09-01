@@ -905,7 +905,8 @@
       "IoTBackend.Service/1.0.0": {
         "dependencies": {
           "IoTBackend.Core": "1.0.0",
-          "IoTBackend.Repository": "1.0.0"
+          "IoTBackend.Repository": "1.0.0",
+          "System.IO.Ports": "10.0.11"
         },
         "runtime": {
           "IoTBackend.Service.dll": {

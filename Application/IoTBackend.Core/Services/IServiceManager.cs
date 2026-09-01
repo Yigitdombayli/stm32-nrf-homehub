@@ -4,5 +4,6 @@ namespace IoTBackend.Core.Services
     {
         ITelemetryService telemetryService {get;}
         IDeviceService deviceService {get;}
+        IUartService uartService {get;}
     }
 }
