@@ -1,0 +1,34 @@
+@using IoTBackend.Core.Entities
+@model Device
+
+<div class="device-card">
+    <div class="device-header">
+        <h3 class="device-name">@Model.Name</h3>
+        <span class="device-mac">ID: @Model.Id | @Model.MacAddress</span>
+    </div>
+    
+    <div class="telemetry-list">
+        @if(Model.TelemetryRecords != null && Model.TelemetryRecords.Any())
+        {
+            foreach(var tel in Model.TelemetryRecords)
+            {
+                <div class="telemetry-item">
+                    <span class="tel-type">@tel.MeasurementType</span>
+                    <span class="tel-value" id="val-@tel.Id">@tel.Value</span>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-telemetry">Henüz veri yok</div>
+        }
+    </div>
+
+    <div class="device-actions">
+        <a href="/Telemetry/Create?deviceId=@Model.Id" class="btn-add-telemetry-small">
+            + Telemetri
+        </a>
+        <a href="/Device/Detail/@Model.Id" class="btn-detail">Detay</a>
+    </div>
+</div>
+

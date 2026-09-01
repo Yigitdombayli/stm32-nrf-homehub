@@ -17,11 +17,13 @@ namespace IoTBackend.Repository
             return device; 
         }
 
+
         public async Task<IEnumerable<Device>> GetAllActiveDevicesAsync()
         {
             var activeDevices = await FindAll(trackChanges: false)
-                                      .Where(d => d.IsActive)
-                                      .ToListAsync();
+                                    .Where(d => d.IsActive)
+                                    .Include(d => d.TelemetryRecords.OrderByDescending(t => t.Timestamp).Take(5)) 
+                                    .ToListAsync();
             return activeDevices;
         }
     }

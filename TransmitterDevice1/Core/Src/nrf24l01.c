@@ -85,8 +85,8 @@ void nrf24_DefaultConfiguration(){
     // SETUP_RETR 750 uS wait and 15 Re-Tranmit on fail
     nrf24_WriteReg(nrf_SETUPT_RETR, 0x2F);
 
-    // Byte 0 Payload width 5 byte
-    nrf24_WriteReg(0x11, 5);
+    // Byte 0 Payload width 11 byte
+    nrf24_WriteReg(0x11, 11);
 }
 
 /**

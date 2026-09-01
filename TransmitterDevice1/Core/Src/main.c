@@ -51,7 +51,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t reData[5] = {0};
+Telemetry_Frame reData;
 uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
 uint16_t SUM;
 uint8_t Presence = 0;
@@ -133,14 +133,20 @@ CE_Enable();
           Temp_byte1 = DHT11_Read(); // Temperature - Integer part (e.g., 24°C)
           Temp_byte2 = DHT11_Read(); // Temperature - Decimal part (Always 0 for DHT11)
           SUM        = DHT11_Read(); // Checksum byte (Rh1 + Rh2 + Temp1 + Temp2)
-          reData[0] = Rh_byte1;
-          reData[1] = Rh_byte2;
-          reData[2] = Temp_byte1;
-          reData[3] = Temp_byte2;
-          reData[4] = SUM;
+          reData.startByte = START_BYTE;
+          reData.stopByte = STOP_BYTE;
+          reData.Cmd_Type = CMD_DHT_11_TEMPRATURE;
+          reData.Payload_Lenght = 11;
+          reData.Target_ID = ID_GATEWAY;
+          reData.Sender_ID = MY_NODE_ID;
+          reData.data[0] = Rh_byte1;
+          reData.data[1] = Rh_byte2;
+          reData.data[2] = Temp_byte1;
+          reData.data[3] = Temp_byte2;
+          reData.data[4] = SUM;
           if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
             LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_0);
-            nrf24_Transmit(reData, 5);
+            nrf24_Transmit((uint8_t *)&reData, sizeof(Telemetry_Frame));
                 do {
                 result = nrf24_CheckTransmission();
                 } while (result == 2); 

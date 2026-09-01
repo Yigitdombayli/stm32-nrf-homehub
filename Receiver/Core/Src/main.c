@@ -68,8 +68,7 @@ TaskHandle_t nrf24_ReceiveTask = NULL;
 
 
 /************************* PRIVATE VARIABLES ******************************/
-DHT11_Frame dht11_frame = {0};
-uint8_t data[5] = {0};
+Telemetry_Frame telemetry_data = {0};
 uint8_t result =0;
 /* USER CODE END PV */
 
@@ -86,12 +85,13 @@ void nrf24_ReceiveTaskHandler(void *params){
   while (1) {
         if (nrf24_DataAvailable() == 1) {
         
-          nrf24_Receive(dht11_frame .data, 5);
-          dht11_frame .startByte = DHT11_STARTBYTE;
-          dht11_frame.stopByte = DHT11_STOPBYTE;
-          LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
-          LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
-          xQueueSend(UartQueue, &dht11_frame, 0);
+          nrf24_Receive((uint8_t *)&telemetry_data, sizeof(Telemetry_Frame));
+          if(telemetry_data.Target_ID == MY_NODE_ID)
+          {
+            LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+            LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
+            xQueueSend(UartQueue, &telemetry_data, 0);
+          }
         }
         else{
           LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
@@ -101,12 +101,12 @@ void nrf24_ReceiveTaskHandler(void *params){
       }
 }
 void UART_TaskHandler(void *params){
-  DHT11_Frame received_data;
+  Telemetry_Frame received_data;
   while (1) {
                if (xQueueReceive(UartQueue, &received_data, portMAX_DELAY) == pdPASS) {
               uint8_t *frame_ptr = (uint8_t *)&received_data;
               
-              for(int i = 0; i < sizeof(DHT11_Frame); i++) {
+              for(int i = 0; i < sizeof(Telemetry_Frame); i++) {
                   while(!LL_USART_IsActiveFlag_TXE(USART2)); 
                   LL_USART_TransmitData8(USART2, frame_ptr[i]);
             }
@@ -157,7 +157,7 @@ int main(void)
   CE_Enable();
   HAL_Delay(2);
   /*********************************** CREATE QUEUES *****************************/
-  UartQueue = xQueueCreate(10, sizeof(DHT11_Frame));
+  UartQueue = xQueueCreate(10, sizeof(Telemetry_Frame));
 
   /************************************  TASK CREATE  ****************************/
   xTaskCreate(nrf24_ReceiveTaskHandler, "nrf24_Receive", 128, NULL, 3, &nrf24_ReceiveTask);

@@ -67,10 +67,10 @@ public class UartService : BackgroundService
         await foreach (var rawBytes in _dataChannel.Reader.ReadAllAsync(stoppingToken))
         {
             buffer.AddRange(rawBytes);
-
-            while (buffer.Count >= 7)
+            while (buffer.Count >= 11)
             {
-                int startIndex = buffer.IndexOf(0xAA);
+                int startIndex = buffer.IndexOf(0x55); 
+                
                 if (startIndex == -1)
                 {
                     buffer.Clear();
@@ -82,31 +82,41 @@ public class UartService : BackgroundService
                     buffer.RemoveRange(0, startIndex);
                 }
 
-                if (buffer.Count < 7) 
+                if (buffer.Count < 11) 
                     break;
 
-                if (buffer[6] == 0x55)
+                if (buffer[10] == 0xAA)
                 {
-                    double humidity = buffer[1];
-                    double temperature = buffer[3];
+                    byte senderId = buffer[1];
+                    byte targetId = buffer[2];
+                    byte cmdType  = buffer[3];
 
-                    var data = new SensorData(temperature, humidity);
-
-                    try
+                    if (targetId == 0xFF || targetId == 0x00) 
                     {
-                        using (var scope = _serviceProvider.CreateScope())
+                        if (cmdType == 0x10) 
                         {
-                            var serviceManager = scope.ServiceProvider.GetRequiredService<IServiceManager>();
-                            
-                            await serviceManager.telemetryService.UpdateTelemetryValueAsync(1, temperature);
+                            double humidity = buffer[5] + (buffer[6] / 10.0);
+                            double temperature = buffer[7] + (buffer[8] / 10.0);
+
+                            _logger.LogInformation("Oda {SenderId} -> Sıcaklık: {Temp}°C, Nem: %{Hum}", senderId, temperature, humidity);
+
+                            try
+                            {
+                                using (var scope = _serviceProvider.CreateScope())
+                                {
+                                    var serviceManager = scope.ServiceProvider.GetRequiredService<IServiceManager>();
+                                    
+                                    await serviceManager.telemetryService.UpdateTelemetryValueAsync(senderId, temperature);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "Telemetri ID {SenderId} güncellenirken veritabanı hatası oluştu.", senderId);
+                            }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Telemetri ID 1 güncellenirken veritabanı hatası oluştu.");
-                    }
 
-                    buffer.RemoveRange(0, 7);
+                    buffer.RemoveRange(0, 11);
                 }
                 else
                 {
