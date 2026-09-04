@@ -21,8 +21,10 @@ builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-builder.Services.AddSingleton<IUartService, UartService>();
-builder.Services.AddHostedService(provider => (UartService)provider.GetRequiredService<IUartService>());
+
+builder.Services.AddSingleton<UartService>();
+builder.Services.AddSingleton<IUartService>(provider => provider.GetRequiredService<UartService>());
+builder.Services.AddHostedService(provider => provider.GetRequiredService<UartService>());
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

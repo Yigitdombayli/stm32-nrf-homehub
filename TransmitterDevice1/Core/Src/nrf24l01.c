@@ -109,20 +109,29 @@ void nrf24_AwakeForRx(){
  * @param size: Byte Lenght
  */
 void nrf24_Transmit(uint8_t *payload, uint8_t size){
+    CE_Disable();
+    nrf24_AwakeForTx();
     
     CSN_Enable();
-    SPI1_TransferByte(0xA0); 
+    SPI1_TransferByte(0xA0);
     for(uint8_t i = 0; i < size; i++) {
         SPI1_TransferByte(payload[i]);
     }
     CSN_Disable(); 
 
     CE_Enable();
-    for(volatile int wait = 0; wait < 100; wait++) {
+    for(volatile int wait = 0; wait < 200; wait++) { 
         __NOP(); 
     }
-    
     CE_Disable(); 
+    
+    uint32_t timeout = 0;
+    while(nrf24_CheckTransmission() == 2) {
+        timeout++;
+        if(timeout > 10000) { 
+            break; 
+        }
+    }
 }
 
 /**

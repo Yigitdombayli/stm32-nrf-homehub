@@ -1,5 +1,6 @@
 #include "systemConf.h"
 #include "stm32g071xx.h"
+#include "stm32g0xx_hal_cortex.h"
 #include "stm32g0xx_ll_bus.h"
 #include "stm32g0xx_ll_gpio.h"
 #include "stm32g0xx_ll_spi.h"
@@ -9,6 +10,7 @@ void SystemConfig(){
     GPIO_Config();
     SPI_Config();
     USART_Config();
+    NvicConfig();
 }
 
 void GPIO_Config(){
@@ -26,9 +28,10 @@ void GPIO_Config(){
     LL_GPIO_Init(GPIOA,&GPIO_InitStruct);
  
     // PB0 -> CSN Signal output for nrf -- PB1 -> CE Signal Output for nrf
+    // PB11 -> Transmit Control LED for PC to ROOM1 (Output).
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Pin = LL_GPIO_PIN_0 | LL_GPIO_PIN_1;
+    GPIO_InitStruct.Pin = LL_GPIO_PIN_0 | LL_GPIO_PIN_1 | LL_GPIO_PIN_11;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -86,4 +89,11 @@ void USART_Config(void){
     LL_USART_Init(USART2, &USART_InitStruct);
 
     LL_USART_Enable(USART2);
+    LL_USART_EnableIT_RXNE(USART2);
+    LL_USART_EnableIT_ERROR(USART2);
+}
+
+void NvicConfig(){
+    NVIC_SetPriority(USART2_IRQn,3);
+    HAL_NVIC_EnableIRQ(USART2_IRQn);
 }

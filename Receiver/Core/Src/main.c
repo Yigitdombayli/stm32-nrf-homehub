@@ -61,15 +61,19 @@
 /* USER CODE BEGIN PV */
 /******************************** QUEUES *************************************/
 QueueHandle_t UartQueue;
-
+QueueHandle_t UartRxQueue;
 /******************************** TASKS *************************************/
 TaskHandle_t UART_Task = NULL;
 TaskHandle_t nrf24_ReceiveTask = NULL;
+TaskHandle_t UART_Parser = NULL;
 
 
 /************************* PRIVATE VARIABLES ******************************/
 Telemetry_Frame telemetry_data = {0};
 uint8_t result =0;
+static uint8_t rx_buffer[11];
+static uint8_t rx_index = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,6 +116,22 @@ void UART_TaskHandler(void *params){
             }
         }
      }
+}
+void vTask_UartParser(void *pvParameters) {
+    Telemetry_Frame incomingFrame;
+
+    while(1){
+        if (xQueueReceive(UartRxQueue, &incomingFrame, portMAX_DELAY) == pdPASS) {
+            
+            if(incomingFrame.startByte == 0x55 && incomingFrame.stopByte == 0xAA) {
+                
+                if(incomingFrame.Target_ID == ID_ROOM_1) {
+                    nrf24_Transmit((uint8_t*)&incomingFrame, 11);
+                    LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
+                }
+            }
+        }
+    }
 }
 
 
@@ -158,10 +178,12 @@ int main(void)
   HAL_Delay(2);
   /*********************************** CREATE QUEUES *****************************/
   UartQueue = xQueueCreate(10, sizeof(Telemetry_Frame));
+  UartRxQueue = xQueueCreate(5, sizeof(Telemetry_Frame));
 
   /************************************  TASK CREATE  ****************************/
   xTaskCreate(nrf24_ReceiveTaskHandler, "nrf24_Receive", 128, NULL, 3, &nrf24_ReceiveTask);
   xTaskCreate(UART_TaskHandler, "UART",128,NULL,2,&UART_Task);
+  xTaskCreate(vTask_UartParser, "UART Parser", 128, NULL, 3, &UART_Parser);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -232,7 +254,30 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void USART2_IRQHandler(void)
+{
+    if (LL_USART_IsActiveFlag_RXNE(USART2) && LL_USART_IsEnabledIT_RXNE(USART2))
+    {
+        rx_buffer[rx_index++] = LL_USART_ReceiveData8(USART2);
+        
+        if (rx_index >= 11)
+        {
+            BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+            xQueueSendFromISR(UartRxQueue, rx_buffer, &xHigherPriorityTaskWoken);
+            rx_index = 0;
 
+            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+        }
+    }
+
+    if (LL_USART_IsActiveFlag_ORE(USART2) || LL_USART_IsActiveFlag_FE(USART2) || LL_USART_IsActiveFlag_NE(USART2))
+    {
+        LL_USART_ClearFlag_ORE(USART2);
+        LL_USART_ClearFlag_FE(USART2);
+        LL_USART_ClearFlag_NE(USART2);
+        rx_index = 0; 
+    }
+}
 /* USER CODE END 4 */
 
 /**
