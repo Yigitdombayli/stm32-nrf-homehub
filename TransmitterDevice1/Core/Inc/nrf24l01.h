@@ -34,3 +34,5 @@ void nrf24_Transmit(uint8_t *payload, uint8_t size);
 uint8_t nrf24_CheckTransmission(void);
 uint8_t nrf24_DataAvailable(void);
 void nrf24_Receive(uint8_t *data, uint8_t size);
+void nrf24_FlushRX(void);
+void nrf24_FlushTX(void);

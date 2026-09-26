@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include "string.h"
 #include "uart.h"
+#include "semphr.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,6 +60,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+/******************************** SEMAPHORE **********************************/
+SemaphoreHandle_t nrfMutex;
+
+
 /******************************** QUEUES *************************************/
 QueueHandle_t UartQueue;
 QueueHandle_t UartRxQueue;
@@ -87,6 +92,7 @@ void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN 0 */
 void nrf24_ReceiveTaskHandler(void *params){
   while (1) {
+    if (xSemaphoreTake(nrfMutex, portMAX_DELAY) == pdTRUE) {
         if (nrf24_DataAvailable() == 1) {
         
           nrf24_Receive((uint8_t *)&telemetry_data, sizeof(Telemetry_Frame));
@@ -101,8 +107,10 @@ void nrf24_ReceiveTaskHandler(void *params){
           LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
           LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
         }
+        xSemaphoreGive(nrfMutex);
         vTaskDelay(pdMS_TO_TICKS(10));
       }
+    }
 }
 void UART_TaskHandler(void *params){
   Telemetry_Frame received_data;
@@ -125,9 +133,14 @@ void vTask_UartParser(void *pvParameters) {
             
             if(incomingFrame.startByte == 0x55 && incomingFrame.stopByte == 0xAA) {
                 
-                if(incomingFrame.Target_ID == ID_ROOM_1) {
+                if(incomingFrame.Target_ID == ID_ROOM_2) {
+                  if (xSemaphoreTake(nrfMutex, portMAX_DELAY) == pdTRUE) {
                     nrf24_Transmit((uint8_t*)&incomingFrame, 11);
                     LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
+                    nrf24_AwakeForRx();
+                    CE_Enable();
+                    xSemaphoreGive(nrfMutex);
+                  }
                 }
             }
         }
@@ -173,13 +186,17 @@ int main(void)
 
   /************************************ Configuration nrf ************************/
   nrf24_DefaultConfiguration(); 
+  nrf24_FlushRX(); 
+  nrf24_FlushTX(); 
+  nrf24_WriteReg(0x07, 0x70);
   nrf24_AwakeForRx();          
   CE_Enable();
   HAL_Delay(2);
   /*********************************** CREATE QUEUES *****************************/
   UartQueue = xQueueCreate(10, sizeof(Telemetry_Frame));
   UartRxQueue = xQueueCreate(5, sizeof(Telemetry_Frame));
-
+  /*********************************** CREATE Semaphores *****************************/
+  nrfMutex = xSemaphoreCreateMutex();
   /************************************  TASK CREATE  ****************************/
   xTaskCreate(nrf24_ReceiveTaskHandler, "nrf24_Receive", 128, NULL, 3, &nrf24_ReceiveTask);
   xTaskCreate(UART_TaskHandler, "UART",128,NULL,2,&UART_Task);

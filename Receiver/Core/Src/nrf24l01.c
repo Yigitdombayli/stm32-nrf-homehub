@@ -193,3 +193,15 @@ void nrf24_Receive(uint8_t *data, uint8_t size){
     }
     CSN_Disable(); 
 }
+
+void nrf24_FlushRX(void) {
+    CSN_Enable();
+    SPI1_TransferByte(0xE2); 
+    CSN_Disable();
+}
+
+void nrf24_FlushTX(void) {
+    CSN_Enable();
+    SPI1_TransferByte(0xE1); 
+    CSN_Disable();
+}

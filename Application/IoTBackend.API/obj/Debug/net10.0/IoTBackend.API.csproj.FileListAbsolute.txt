@@ -166,11 +166,6 @@
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/scopedcss/bundle/IoTBackend.API.styles.css
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/3c3jg64x4x-{0}-kraozlowys-kraozlowys.gz
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/8lhzq7lhge-{0}-tchca6dsko-tchca6dsko.gz
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/m8ev9gfheo-{0}-lqpszpll04-lqpszpll04.gz
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/5ydmr2sjql-{0}-wusgj3ro72-wusgj3ro72.gz
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/vpvdd2gadx-{0}-ieqgtmoq2y-ieqgtmoq2y.gz
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/staticwebassets.build.json
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/staticwebassets.build.json.cache
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/staticwebassets.development.json
@@ -182,4 +177,12 @@
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/IoTBackend.API.pdb
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/IoTBackend.API.genruntimeconfig.cache
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/ref/IoTBackend.API.dll
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/9fnf1ri9mz-{0}-ne27i12ghs-ne27i12ghs.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/3c3jg64x4x-{0}-5474oyekls-5474oyekls.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/8lhzq7lhge-{0}-4c2vac2brd-4c2vac2brd.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/5ydmr2sjql-{0}-5adfi9mxac-5adfi9mxac.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/q6ttleire8-{0}-kspthqpcob-kspthqpcob.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/or0pkb9zmc-{0}-og8xl30feg-og8xl30feg.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/o4geirprye-{0}-t5fxduj2vn-t5fxduj2vn.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/m8ev9gfheo-{0}-k5c4pzg5s2-k5c4pzg5s2.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/vpvdd2gadx-{0}-g8xjof99fc-g8xjof99fc.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/9fnf1ri9mz-{0}-q0km61gme5-q0km61gme5.gz

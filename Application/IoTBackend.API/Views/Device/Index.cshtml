@@ -1,49 +1,55 @@
 @model IEnumerable<IoTBackend.Core.Entities.Device>
 
 @{
-    ViewData["Title"] = "Cihaz Listesi";
+    ViewData["Title"] = "Device List";
 }
 
-<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #89b4fa; padding-bottom: 10px; margin-bottom: 20px;">
-    <h1 style="color: #cdd6f4; margin: 0;">Bağlı Cihazlar</h1>
-    <a href="/Device/Create" style="background-color: #a6e3a1; color: #11111b; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-        + Yeni Cihaz Ekle
-    </a>
-</div>
+<link rel="stylesheet" href="~/css/Device/Index.css" />
 
-<table style="width: 100%; text-align: left; border-collapse: collapse; color: #cdd6f4;">
-    <thead>
-        <tr style="background-color: #313244; color: #89b4fa;">
-            <th style="padding: 12px; border-radius: 8px 0 0 8px;">ID</th>
-            <th style="padding: 12px;">Cihaz Adı</th>
-            <th style="padding: 12px;">MAC Adresi / Port</th>
-            <th style="padding: 12px;">Durum</th>
-            <th style="padding: 12px; border-radius: 0 8px 8px 0;">İşlem</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="5" style="padding: 20px; text-align: center; color: #a6adc8;">Henüz kayıtlı cihaz bulunmuyor.</td>
-            </tr>
-        }
-        else
-        {
-            @foreach (var item in Model)
-            {
-                <tr style="border-bottom: 1px solid #313244;">
-                    <td style="padding: 12px;">@item.Id</td>
-                    <td style="padding: 12px; font-weight: bold;">@item.Name</td>
-                    <td style="padding: 12px; color: #a6adc8;">@item.MacAddress</td>
-                    <td style="padding: 12px;">
-                        <span style="background-color: #a6e3a1; color: #11111b; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Aktif</span>
-                    </td>
-                    <td style="padding: 12px;">
-                        <a asp-controller="Device" asp-action="Detail" asp-route-id="@item.Id" style="color: #89b4fa; text-decoration: none;">Detay</a>
-                    </td>
+<div class="page-container">
+    <div class="header-section">
+        <h1 class="page-title">Connected Devices</h1>
+        <a href="/Device/Create" class="btn-primary">
+            + Add New Device
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-id text-center">ID</th>
+                    <th class="col-name">Device Name</th>
+                    <th class="col-mac">MAC Address / Port</th>
+                    <th class="col-status text-center">Status</th>
+                    <th class="col-action text-center">Action</th>
                 </tr>
-            }
-        }
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="empty-list">No registered devices found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@item.Id</td>
+                            <td class="font-bold">@item.Name</td>
+                            <td class="text-mono text-muted">@item.MacAddress</td>
+                            <td class="text-center">
+                                <span class="status-badge status-active">Active</span>
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Device" asp-action="Detail" asp-route-id="@item.Id" class="btn-action">Details</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

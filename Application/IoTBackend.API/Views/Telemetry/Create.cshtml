@@ -2,15 +2,17 @@
 @model TelemetryRecord
 
 @{
-    ViewData["Title"] = "Yeni Telemetri Kaydı";
+    ViewData["Title"] = "Add New Telemetry";
     var deviceId = ViewBag.DeviceId;
 }
 
-    <link rel="stylesheet" href="~/css/Telemetry/Create.css" />
+<link rel="stylesheet" href="~/css/Telemetry/Create.css" />
 
-<div class="create-telemetry-container">
-    <h1 class="page-title">Yeni Telemetri Ekle</h1>
-    <p class="subtitle">Cihaz ID: <strong>@deviceId</strong> için veri girişi yapıyorsunuz.</p>
+<div class="form-container-wrapper">
+    <div class="header-section">
+        <h1 class="page-title">Add New Telemetry</h1>
+        <p class="subtitle">Entering data for Device ID: <strong>@deviceId</strong></p>
+    </div>
 
     <div class="form-card">
         <form action="/Telemetry/Create" method="post">
@@ -18,17 +20,18 @@
             <input type="hidden" name="DeviceId" value="@deviceId" />
 
             <div class="form-group">
-                <label>Ölçüm Türü (Measurement Type)</label>
-                <input type="text" name="MeasurementType" required placeholder="Örn: Sicaklik, Nem, Basinc..." />
+                <label class="form-label">Measurement Type</label>
+                <input type="text" name="MeasurementType" required class="form-control" placeholder="e.g., Temperature, Humidity, Pressure..." />
             </div>
 
             <div class="form-group">
-                <label>Değer (Value)</label>
-                <input type="text" name="Value" required placeholder="Örn: 24.5" />
+                <label class="form-label">Value</label>
+                <input type="text" name="Value" required class="form-control" placeholder="e.g., 24.5" />
             </div>
-            <div class="button-group">
-                <button type="submit" class="btn-submit">Kaydet</button>
-                <a href="/Device/Detail/@deviceId" class="btn-cancel">İptal</a>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-save">Save</button>
+                <a href="/Device/Detail/@deviceId" class="btn btn-cancel">Cancel</a>
             </div>
         </form>
     </div>

@@ -2,24 +2,24 @@
 @model IEnumerable<TelemetryRecord>
 
 @{
-    ViewData["Title"] = "Sensör Listesi";
+    ViewData["Title"] = "Telemetry Data";
 }
 
 <link rel="stylesheet" href="~/css/Device/Detail.css" />
 
-<div class="telemetry-container">
+<div class="page-container">
     
     <div class="header-section">
-        <h1 class="page-title">Sensör Listesi (Cihaz ID: @ViewBag.DeviceId)</h1>
+        <h1 class="page-title">Telemetry Data <span class="text-muted">(Device ID: @ViewBag.DeviceId)</span></h1>
         
-        <a href="/Telemetry/Create?deviceId=@ViewBag.DeviceId" class="btn-add-telemetry">
-            + Yeni Telemetri Ekle
+        <a href="/Telemetry/Create?deviceId=@ViewBag.DeviceId" class="btn-primary">
+            + Add New Telemetry
         </a>
     </div>
 
-    <!-- Tablo Alanı -->
+    <!-- Table Section -->
     <div class="table-wrapper">
-        <table class="telemetry-table">
+        <table class="data-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -35,8 +35,8 @@
                     {
                         <tr>
                             <td>@item.Id</td>
-                            <td>@item.MeasurementType</td>
-                            <td>@item.Value</td>
+                            <td class="font-bold">@item.MeasurementType</td>
+                            <td class="font-bold text-highlight">@item.Value</td>
                             <td>@item.Timestamp.ToString("dd.MM.yyyy HH:mm:ss")</td>
                         </tr>
                     }
@@ -44,7 +44,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="4" class="empty-list">Empty List (Kayıt Bulunmuyor)</td>
+                        <td colspan="4" class="empty-list">No telemetry records found.</td>
                     </tr>
                 }
             </tbody>

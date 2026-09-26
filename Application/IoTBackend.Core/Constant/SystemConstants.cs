@@ -13,7 +13,7 @@ public static class SystemConstants
     public const byte CMD_DHT_11_TEMPERATURE = 0x10;
     public const byte CMD_RELAY_CTRL = 0x20;
 
-    public const string PORT_ADDRESS = "/dev/ttyACM2";
+    public const string PORT_ADDRESS = "/dev/ttyACM3";
  
    public const int BAUDRATE = 9600;
 }

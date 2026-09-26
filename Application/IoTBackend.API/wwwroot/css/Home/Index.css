@@ -1,3 +1,76 @@
-.Index-Background{
-    color : blue;
+/* Ana Kapsayıcı - Sayfayı dikeyde kaplar ve içeriği ortalar */
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); /* Layout'taki paddingleri hesaba katarak tam ekran yapar */
+    position: relative;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Tanıtım Kartı (Hero Section) */
+.hero-section {
+    background-color: #ffffff;
+    max-width: 650px;
+    padding: 50px;
+    border: 1px solid #d1d5db; /* Diğer sayfalardaki gibi ince çerçeve */
+    text-align: center;
+    border-radius: 0; /* Kare tasarım dili */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Çok hafif, profesyonel bir derinlik */
+}
+
+/* Ana Başlık */
+.hero-title {
+    color: #111111;
+    font-size: 2.2rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 15px;
+}
+
+/* Açıklama Metni */
+.hero-description {
+    color: #4b5563;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+/* Kurumsal Buton */
+.btn-primary {
+    display: inline-block;
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 14px 28px;
+    text-decoration: none;
+    border-radius: 0; /* Kare buton */
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border: 1px solid #1d4ed8;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    color: #ffffff;
+}
+
+/* Sayfa Altı Copyright Metni */
+.footer-copyright {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    padding-bottom: 10px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+    letter-spacing: 0.5px;
 }

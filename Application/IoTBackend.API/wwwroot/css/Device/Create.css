@@ -1,0 +1,106 @@
+.form-container-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-section {
+    margin-bottom: 25px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 15px;
+}
+
+.page-title {
+    color: #111111;
+    margin: 0;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.form-card {
+    background-color: #ffffff;
+    padding: 30px;
+    border: 1px solid #d1d5db;
+    border-radius: 0; /* Kare yapı */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: 0; /* Kare köşeler */
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    color: #111827;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* Tıklandığında Mavi Vurgu */
+.form-control:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: #ffffff;
+    border-width: 2px;
+    padding: 11px; /* 2px border geldiğinde zıplamayı önler */
+}
+
+.form-control::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 0; /* Kare */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    flex-grow: 1;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-save {
+    background-color: #059669; /* Koyu yeşil kurumsal renk */
+    color: #ffffff;
+    border: 1px solid #047857;
+}
+
+.btn-save:hover {
+    background-color: #047857;
+}
+
+.btn-cancel {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-cancel:hover {
+    background-color: #e5e7eb;
+}

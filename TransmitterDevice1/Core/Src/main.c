@@ -116,6 +116,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 SystemConfig();
 nrf24_DefaultConfiguration(); 
+  nrf24_FlushRX(); 
+  nrf24_FlushTX(); 
+  nrf24_WriteReg(0x07, 0x70);
 nrf24_AwakeForRx();           
 LL_mDelay(2);
 
@@ -126,59 +129,72 @@ CE_Enable();
   /* USER CODE BEGIN WHILE */
     while (1)
     {
-      if (nrf24_DataAvailable() == 1) {
-            nrf24_Receive((uint8_t *)&rxData, sizeof(Telemetry_Frame));
+if (nrf24_DataAvailable() == 1) {
             
-            if (rxData.Target_ID == MY_NODE_ID && rxData.Cmd_Type == CMD_RELAY_CTRL) {
+            while ((nrf24_ReadReg(0x17) & 0x01) == 0) {
                 
-                if (rxData.data[0] == 0x00) {
-                    LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_3);
+                nrf24_Receive((uint8_t *)&rxData, 11); 
+                
+                if (rxData.Target_ID == MY_NODE_ID) {
+                    
+                    if (rxData.Cmd_Type == CMD_RELAY_CTRL) {
+                        if (rxData.data[0] == 0x00) {
+                            if (rxData.data[1] == 0x01) {
+                                LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
+                            } else {
+                                LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
+                            }
+                        } 
+                        
+                        else if (rxData.data[0] == 0x01) {
+                            if (rxData.data[1] == 0x01) {
+                                LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_7);
+                            } else {
+                                LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_7);
+                            }
+                        }
+                  }
+                    
+                    else if (rxData.Cmd_Type == CMD_DHT_11_TEMPRATURE) {
+                        
+                        DHT11_Start();
+                        Presence = DHT11_Check_Response();
+                        
+                        if (Presence == 1) {
+                            Rh_byte1   = DHT11_Read(); 
+                            Rh_byte2   = DHT11_Read(); 
+                            Temp_byte1 = DHT11_Read(); 
+                            Temp_byte2 = DHT11_Read(); 
+                            SUM        = DHT11_Read(); 
+                            
+                            if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
+                                reData.startByte = START_BYTE;
+                                reData.stopByte = STOP_BYTE;
+                                reData.Cmd_Type = CMD_DHT_11_TEMPRATURE; 
+                                reData.Payload_Lenght = 11;
+                                reData.Target_ID = ID_GATEWAY;
+                                reData.Sender_ID = MY_NODE_ID;
+                                reData.data[0] = Rh_byte1;
+                                reData.data[1] = Rh_byte2;
+                                reData.data[2] = Temp_byte1;
+                                reData.data[3] = Temp_byte2;
+                                reData.data[4] = SUM;
+                                
+                                LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_0);
+                                nrf24_Transmit((uint8_t *)&reData, sizeof(Telemetry_Frame));
+                                nrf24_AwakeForRx(); 
+                                CE_Enable(); 
+                            }
+                        }
+                        else {
+                            LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1); 
+                        }
+                    } 
                 } 
-                else {
-                    LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
-                }
-            }
-        }
+            } // RX FIFO Boşaltma Döngüsü Sonu
+        } 
+        
         LL_mDelay(10);
-/*
-        if (sensor_timer >= 200) { 
-            sensor_timer = 0; 
-            
-            DHT11_Start();
-            Presence = DHT11_Check_Response();
-            
-            if (Presence == 1) {
-                Rh_byte1   = DHT11_Read(); 
-                Rh_byte2   = DHT11_Read(); 
-                Temp_byte1 = DHT11_Read(); 
-                Temp_byte2 = DHT11_Read(); 
-                SUM        = DHT11_Read(); 
-                
-                reData.startByte = START_BYTE;
-                reData.stopByte = STOP_BYTE;
-                reData.Cmd_Type = CMD_DHT_11_TEMPRATURE; 
-                reData.Payload_Lenght = 11;
-                reData.Target_ID = ID_GATEWAY;
-                reData.Sender_ID = MY_NODE_ID;
-                reData.data[0] = Rh_byte1;
-                reData.data[1] = Rh_byte2;
-                reData.data[2] = Temp_byte1;
-                reData.data[3] = Temp_byte2;
-                reData.data[4] = SUM;
-                
-                if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
-                    LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_0);
-                    nrf24_Transmit((uint8_t *)&reData, sizeof(Telemetry_Frame));
-                }
-            }
-            else {
-                LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1); 
-            }
-        }
-
-        LL_mDelay(10);   
-        sensor_timer++;  
-        */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

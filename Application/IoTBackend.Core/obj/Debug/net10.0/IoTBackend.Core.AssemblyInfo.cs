@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IoTBackend.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b4b94f2b9a1871ce80efd60ebe6ec6219ee84f2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d4943c7eacd3470bc4202ffbfdadb92a1708c1a")]
 [assembly: System.Reflection.AssemblyProductAttribute("IoTBackend.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IoTBackend.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

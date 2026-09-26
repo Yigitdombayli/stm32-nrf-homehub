@@ -1,109 +1,121 @@
-.create-telemetry-container {
-    max-width: 500px;
-    margin: 40px auto;
-    font-family: Arial, sans-serif;
+/* Form Genel Kapsayıcı */
+.form-container-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Üst Başlık Alanı */
+.header-section {
+    margin-bottom: 25px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 15px;
 }
 
 .page-title {
-    color: #cdd6f4;
-    border-bottom: 2px solid #89b4fa;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    font-size: 1.8rem;
+    color: #111111;
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
 }
 
 .subtitle {
-    color: #a6adc8;
-    margin-bottom: 25px;
+    color: #6b7280;
+    margin: 0;
     font-size: 0.95rem;
 }
 
 .subtitle strong {
-    color: #89b4fa;
+    color: #111827;
+    font-weight: 700;
 }
 
-/* Formun İçinde Bulunduğu Kutu */
+/* Form Kartı */
 .form-card {
-    background-color: #181825;
+    background-color: #ffffff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border: 1px solid #d1d5db;
+    border-radius: 0; /* Kare köşeler */
 }
 
-/* Form Elemanları */
 .form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.form-label {
     display: block;
     margin-bottom: 8px;
-    color: #a6adc8;
-    font-size: 0.95rem;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
-.form-group input {
+/* Input Alanları */
+.form-control {
     width: 100%;
     padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #313244;
-    background-color: #1e1e2e;
-    color: #cdd6f4;
+    border-radius: 0; /* Kare köşeler */
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    color: #111827;
+    font-size: 0.95rem;
     box-sizing: border-box;
-    font-size: 1rem;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
-.form-group input:focus {
+.form-control:focus {
     outline: none;
-    border-color: #89b4fa;
-    box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.2);
+    border-color: #2563eb; /* Odaklanınca Mavi Çerçeve */
+    background-color: #ffffff;
+    border-width: 2px;
+    padding: 11px; /* Çerçeve kalınlaşınca zıplamayı önler */
 }
 
-.form-group input::placeholder {
-    color: #585b70;
+.form-control::placeholder {
+    color: #9ca3af;
+    font-style: italic;
 }
 
-/* Buton Alanı */
-.button-group {
+/* Butonlar */
+.form-actions {
     display: flex;
     gap: 15px;
     margin-top: 30px;
 }
 
-.btn-submit {
-    background-color: #89b4fa;
-    color: #11111b;
+.btn {
     padding: 12px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 0; /* Kare butonlar */
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
     flex-grow: 1;
-    font-size: 1rem;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
-.btn-submit:hover {
-    background-color: #749dec;
-    transform: translateY(-2px);
+.btn-save {
+    background-color: #059669; /* Kurumsal Yeşil */
+    color: #ffffff;
+    border: 1px solid #047857;
+}
+
+.btn-save:hover {
+    background-color: #047857;
 }
 
 .btn-cancel {
-    background-color: #313244;
-    color: #cdd6f4;
-    padding: 12px 20px;
-    text-decoration: none;
-    border-radius: 6px;
-    text-align: center;
-    flex-grow: 1;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    background-color: #f3f4f6; /* Açık Gri */
+    color: #374151;
+    border: 1px solid #d1d5db;
 }
 
 .btn-cancel:hover {
-    background-color: #45475a;
-    color: #ffffff;
-    transform: translateY(-2px);
+    background-color: #e5e7eb;
 }

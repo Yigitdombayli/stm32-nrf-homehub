@@ -1,42 +1,37 @@
 @model IoTBackend.Core.Entities.Device
 
 @{
-    ViewData["Title"] = "Yeni Cihaz Ekle";
+    ViewData["Title"] = "Add New Device";
 }
-<html>
-    <head>
 
-    </head>
+<link rel="stylesheet" href="~/css/Device/Create.css" />
 
-    <body>
-        <h1 class="text-success" style="border-bottom: 2px solid #89b4fa; padding-bottom: 10px; margin-bottom: 20px;">
-            Yeni Cihaz Tanımla
-        </h1>
+<div class="form-container-wrapper">
+    <div class="header-section">
+        <h1 class="page-title">Define New Device</h1>
+    </div>
 
-        <div style="background-color: #181825; padding: 25px; border-radius: 8px; max-width: 500px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <form action="/Device/Create" method="post">
-                
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; color: #a6adc8;">Cihaz Adı</label>
-                    <input type="text" name="Name" required placeholder="Örn: STM32 Ana Kontrolcü" 
-                        style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #313244; background-color: #1e1e2e; color: #cdd6f4; box-sizing: border-box;" />
-                </div>
+    <div class="form-card">
+        <form action="/Device/Create" method="post">
+            
+            <div class="form-group">
+                <label class="form-label">Device Name</label>
+                <input type="text" name="Name" required class="form-control" placeholder="e.g., STM32 Main Controller" />
+            </div>
 
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; color: #a6adc8;">MAC Adresi / Seri Port</label>
-                    <input type="text" name="MacAddress" required placeholder="Örn: /dev/ttyACM0" 
-                        style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #313244; background-color: #1e1e2e; color: #cdd6f4; box-sizing: border-box;" />
-                </div>
+            <div class="form-group">
+                <label class="form-label">MAC Address / Serial Port</label>
+                <input type="text" name="MacAddress" required class="form-control" placeholder="e.g., /dev/ttyACM0" />
+            </div>
 
-                <div style="display: flex; gap: 10px;">
-                    <button type="submit" style="background-color: #89b4fa; color: #11111b; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; flex-grow: 1;">
-                        Kaydet
-                    </button>
-                    <a href="/Device/Index" style="background-color: #313244; color: #cdd6f4; padding: 10px 20px; text-decoration: none; border-radius: 5px; text-align: center; flex-grow: 1;">
-                        İptal
-                    </a>
-                </div>
-            </form>
-        </div>
-    </body>
-</html>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-save">
+                    Save Device
+                </button>
+                <a href="/Device/Index" class="btn btn-cancel">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

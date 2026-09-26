@@ -75,14 +75,16 @@ namespace IoTBackend.API.Services
             {
                 var processorTask = ProcessDataAsync(stoppingToken);
                 var readerTask = Task.Run(() => ReadFromSerialPortAsync(stoppingToken), stoppingToken);
-                await Task.WhenAll(readerTask, processorTask);
+                
+                var pollingTask = Task.Run(() => PollTemperatureAsync(stoppingToken), stoppingToken); 
+                
+                await Task.WhenAll(readerTask, processorTask, pollingTask);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "UART ExecuteAsync hatası.");
             }
         }
-
         private async Task ReadFromSerialPortAsync(CancellationToken stoppingToken)
         {
             byte[] buffer = new byte[1024];
@@ -103,7 +105,26 @@ namespace IoTBackend.API.Services
                 }
             }
         }
+        private async Task PollTemperatureAsync(CancellationToken stoppingToken)
+        {
+            await Task.Delay(2000, stoppingToken);
 
+            byte[] emptyPayload = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await SendUARTAsync(SystemConstants.ID_ROOM_1, 11, SystemConstants.CMD_DHT_11_TEMPERATURE, emptyPayload);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Oda 1 sıcaklık sorgusu (Pull) gönderilirken hata oluştu.");
+                }
+
+                    await Task.Delay(3000, stoppingToken); 
+            }
+        }
         private async Task ProcessDataAsync(CancellationToken stoppingToken)
         {
             List<byte> buffer = new List<byte>();

@@ -1,15 +1,23 @@
 @{
-    ViewData["Title"] = "Dashboard"; 
+    ViewData["Title"] = "Home"; 
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Website</title>
-    <link rel="stylesheet" href="~/css/Home/Index.css">
-</head>
-<body class="Index-Background">
-    <h1>Hello World</h1>
-</body>
-</html>
+<link rel="stylesheet" href="~/css/Home/Index.css">
+
+<div class="landing-container">
+    <div class="hero-section">
+        <h1 class="hero-title">Welcome to IoT HUB</h1>
+        
+        <p class="hero-description">
+            A professional, centralized management platform designed to monitor telemetry data in real-time, control remote devices, and streamline your industrial IoT infrastructure.
+        </p>
+        
+        <a href="/Dashboard/Index" class="btn-primary">
+            Go to Dashboard
+        </a>
+    </div>
+
+    <div class="footer-copyright">
+        &copy; @DateTime.Now.Year IoT Hub Management System. All rights reserved.
+    </div>
+</div>

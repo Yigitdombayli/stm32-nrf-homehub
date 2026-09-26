@@ -1,15 +1,22 @@
+body {
+    background-color: #f4f5f7; /* Arka planı hafif gri yaparak beyaz kartların öne çıkmasını sağlar */
+}
+
 .dashboard-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .page-title {
-    color: #cdd6f4;
-    border-bottom: 2px solid #89b4fa;
+    color: #111111;
+    border-bottom: 2px solid #000000;
     padding-bottom: 10px;
     margin-bottom: 30px;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
 }
 
 .dashboard-grid {
@@ -19,30 +26,38 @@
 }
 
 .device-card {
-    background-color: #181825;
-    border-radius: 12px;
+    background-color: #ffffff;
+    border-radius: 0; /* Kare köşeler */
     padding: 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    border: 1px solid #313244;
+    border: 1px solid #d1d5db;
+    box-shadow: none; /* Temiz düz görünüm */
+    transition: border-color 0.2s ease;
+}
+
+.device-card:hover {
+    border-color: #9ca3af;
 }
 
 .device-header {
     margin-bottom: 15px;
-    border-bottom: 1px solid #313244;
+    border-bottom: 1px solid #e5e7eb;
     padding-bottom: 10px;
 }
 
 .device-name {
-    color: #89b4fa;
+    color: #111827;
     margin: 0 0 5px 0;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 .device-mac {
-    color: #a6adc8;
-    font-size: 0.85rem;
+    color: #6b7280;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
 }
 
 .telemetry-list {
@@ -53,26 +68,69 @@
 .telemetry-item {
     display: flex;
     justify-content: space-between;
-    background-color: #1e1e2e;
+    background-color: #f9fafb;
     padding: 10px;
     margin-bottom: 8px;
-    border-radius: 6px;
+    border-radius: 0; /* Kare köşeler */
+    border: 1px solid #e5e7eb;
 }
 
 .tel-type {
-    color: #a6adc8;
+    color: #4b5563;
+    font-weight: 500;
 }
 
 .tel-value {
-    color: #cdd6f4;
+    color: #111827;
     font-weight: bold;
 }
 
 .empty-telemetry {
-    color: #585b70;
+    color: #9ca3af;
     font-style: italic;
     text-align: center;
     padding: 10px;
+    border: 1px dashed #d1d5db;
+}
+
+.control-title {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: #374151;
+    text-transform: uppercase;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    border-radius: 0; /* Kare köşeler */
+    border: none;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    text-transform: uppercase;
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+.btn-success {
+    background-color: #059669;
+    color: #ffffff;
+    border: 1px solid #047857;
 }
 
 .device-actions {
@@ -80,33 +138,26 @@
     gap: 10px;
 }
 
-.btn-add-telemetry-small {
-    background-color: #313244;
-    color: #89b4fa;
-    padding: 8px;
+.btn-action {
+    padding: 10px;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 0; /* Kare köşeler */
     text-align: center;
     flex-grow: 1;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    transition: all 0.2s;
 }
 
-.btn-add-telemetry-small:hover {
-    background-color: #45475a;
+.btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: 1px solid #1d4ed8;
 }
 
-.btn-detail {
-    background-color: #89b4fa;
-    color: #11111b;
-    padding: 8px;
-    text-decoration: none;
-    border-radius: 6px;
-    text-align: center;
-    flex-grow: 1;
-    font-weight: bold;
-    font-size: 0.9rem;
+.btn-primary:hover {
+    background-color: #1d4ed8;
 }
 
 .add-device-card {
@@ -114,20 +165,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: transparent;
-    border: 2px dashed #45475a;
-    border-radius: 12px;
+    background-color: #ffffff;
+    border: 2px dashed #d1d5db;
+    border-radius: 0; /* Kare köşeler */
     padding: 20px;
     text-decoration: none;
-    color: #a6adc8;
+    color: #6b7280;
     min-height: 200px;
     transition: all 0.2s ease;
 }
 
 .add-device-card:hover {
-    border-color: #89b4fa;
-    color: #89b4fa;
-    background-color: rgba(137, 180, 250, 0.05);
+    border-color: #2563eb;
+    color: #2563eb;
+    background-color: #eff6ff;
 }
 
 .add-icon {

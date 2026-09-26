@@ -16,26 +16,33 @@
                     <span class="tel-type">@tel.MeasurementType</span>
                     <span class="tel-value" id="val-@tel.Id">@tel.Value</span>
                 </div>
-                <button id="btnRoom1" data-room="0x01" type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                    Oda 1 Işık (KAPALI)
-                </button>
-
-                <button id="btnRoom2" data-room="0x02" type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                    Oda 2 Işık (KAPALI)
-                </button>
             }
         }
         else
         {
-            <div class="empty-telemetry">Henüz veri yok</div>
+            <div class="empty-telemetry">No data available</div>
         }
     </div>
 
-    <div class="device-actions">
-        <a href="/Telemetry/Create?deviceId=@Model.Id" class="btn-add-telemetry-small">
-            + Telemetri
+    <div class="device-controls" style="margin-top: 15px;">
+        <h4 class="control-title">Room @Model.Id Controls</h4> 
+        <div class="button-group">
+            <button data-room="@Model.Id" data-led="0" type="button" class="btn btn-secondary toggle-btn">
+                LED 1 (OFF)
+            </button>
+
+            <button data-room="@Model.Id" data-led="1" type="button" class="btn btn-secondary toggle-btn">
+                LED 2 (OFF)
+            </button>
+        </div>
+    </div>
+
+    <div class="device-actions" style="margin-top: 15px;">
+        <a href="/Telemetry/Create?deviceId=@Model.Id" class="btn-action btn-secondary">
+            + Telemetry
         </a>
-        <a href="/Device/Detail/@Model.Id" class="btn-detail">Detay</a>
+        <a href="/Device/Detail/@Model.Id" class="btn-action btn-primary">
+            Details
+        </a>
     </div>
 </div>
-
