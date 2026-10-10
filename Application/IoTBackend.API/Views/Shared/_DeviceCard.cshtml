@@ -37,6 +37,15 @@
         </div>
     </div>
 
+    <div class="device-controls" style="margin-top: 15px;">
+    <h4 class="control-title">Room @Model.Id Temperature</h4> 
+    <div class="input-group" style="display: flex; gap: 10px;">
+        <input type="number" id="targetTemp-@Model.Id" class="form-control" placeholder="Ex: 25" style="width: 100px;">
+        <button data-room="@Model.Id" type="button" class="btn btn-primary set-temp-btn">
+            Set
+        </button>
+    </div>
+    </div>
     <div class="device-actions" style="margin-top: 15px;">
         <a href="/Telemetry/Create?deviceId=@Model.Id" class="btn-action btn-secondary">
             + Telemetry

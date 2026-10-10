@@ -13,7 +13,7 @@
 // Command List
 #define CMD_RELAY_CTRL                 0x20
 #define CMD_DHT_11_TEMPRATURE          0x10
-
+#define CMD_SET_TARGET_TEMP            0x30
 
 #define  STOP_BYTE                     0xAA
 #define START_BYTE                     0x55

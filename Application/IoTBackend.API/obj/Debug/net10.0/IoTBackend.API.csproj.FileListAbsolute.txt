@@ -185,4 +185,4 @@
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/o4geirprye-{0}-t5fxduj2vn-t5fxduj2vn.gz
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/m8ev9gfheo-{0}-k5c4pzg5s2-k5c4pzg5s2.gz
 /home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/vpvdd2gadx-{0}-g8xjof99fc-g8xjof99fc.gz
-/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/9fnf1ri9mz-{0}-q0km61gme5-q0km61gme5.gz
+/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/obj/Debug/net10.0/compressed/9fnf1ri9mz-{0}-acquv9xyqb-acquv9xyqb.gz

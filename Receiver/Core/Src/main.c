@@ -133,7 +133,7 @@ void vTask_UartParser(void *pvParameters) {
             
             if(incomingFrame.startByte == 0x55 && incomingFrame.stopByte == 0xAA) {
                 
-                if(incomingFrame.Target_ID == ID_ROOM_2) {
+                if(incomingFrame.Target_ID == ID_ROOM_2 || ID_ROOM_1) {
                   if (xSemaphoreTake(nrfMutex, portMAX_DELAY) == pdTRUE) {
                     nrf24_Transmit((uint8_t*)&incomingFrame, 11);
                     LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);

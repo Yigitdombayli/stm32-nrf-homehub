@@ -1,4 +1,5 @@
 #include "systemConf.h"
+#include "stm32f103xb.h"
 #include "stm32f1xx_ll_bus.h"
 #include "stm32f1xx_ll_gpio.h"
 #include "stm32f1xx_ll_spi.h"
@@ -39,6 +40,18 @@ void GPIO_Config(){
     GPIO_InitStruct.Pin = LL_GPIO_PIN_0 | LL_GPIO_PIN_1 | LL_GPIO_PIN_3;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    // PB4 -> PWM OUTPUT TIM3 CH1 For Motor Drive
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_AFIO);
+    LL_GPIO_AF_RemapPartial_TIM3(); 
+    LL_GPIO_AF_Remap_SWJ_NOJTAG();
+    GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pin = LL_GPIO_PIN_4;
+    GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+    LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    
 }
 
 void SPI_Config(){
@@ -63,9 +76,12 @@ void SPI_Config(){
     LL_SPI_Enable(SPI1);
 }
 
-// Timer count up every 1 us
+// Timer1 count up every 1 us
+// TIMER3 Conf. as PWM Output for Motor Drive.
 void Timer_Config(){
     LL_TIM_InitTypeDef TIM_InitStruct = {0};
+    LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
+
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
 	TIM_InitStruct.Prescaler = 63;
 	TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
@@ -74,5 +90,21 @@ void Timer_Config(){
 	TIM_InitStruct.Autoreload = 0xFFFF-1;
 	LL_TIM_Init(TIM1, &TIM_InitStruct);
 	LL_TIM_EnableCounter(TIM1);
+
+    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
+    TIM_InitStruct.Prescaler = 63;
+    TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
+    TIM_InitStruct.RepetitionCounter = 0;
+    TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+    TIM_InitStruct.Autoreload = 999;
+    LL_TIM_Init(TIM3, &TIM_InitStruct);
+
+    TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM1;
+    TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_ENABLE;
+    TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
+    TIM_OC_InitStruct.CompareValue = 999;
+    LL_TIM_OC_Init(TIM3, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
+    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
+    LL_TIM_EnableCounter(TIM3);
 }
 

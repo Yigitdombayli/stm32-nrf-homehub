@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "spi.h"
+#include "stm32f1xx_ll_tim.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -58,6 +59,12 @@ uint16_t SUM;
 uint8_t Presence = 0;
 uint8_t result =0;
 uint32_t sensor_timer = 0;
+float Kp = 30.0;
+float Kd = 2.0;
+float Ki = 10.0;
+int target_temp = 0;
+float total_error = 0.0;
+float prev_error = 0.0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,7 +75,34 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int Calculate_PID(int Temprature){
+float error = (float)(Temprature - target_temp);
 
+  if (error <= 0) {
+      total_error = 0; 
+      prev_error = 0;  
+      return 0;        
+  }
+
+  total_error = total_error + error;
+  
+  if(total_error > 200.0) total_error = 200.0;
+  if(total_error < 0.0) total_error = 0.0;
+
+  float error_diff = error - prev_error;
+  float P = Kp * error;
+  float I = Ki * total_error;
+  float D = Kd * error_diff;
+
+  float total_PID = P + I + D;
+
+  prev_error = error;
+  
+  if(total_PID > 999.0) total_PID = 999.0;
+  if(total_PID < 0.0) total_PID = 0.0;
+  
+  return (int)total_PID;
+}
 /* USER CODE END 0 */
 
 /**
@@ -85,18 +119,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_AFIO);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  /* System interrupt init*/
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-
-  /* SysTick_IRQn interrupt configuration */
-  NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),15, 0));
-
-  /** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
-  */
-  LL_GPIO_AF_Remap_SWJ_NOJTAG();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -112,7 +135,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
-//  MX_TIM1_Init();
+  MX_TIM1_Init();
+  //MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 SystemConfig();
 nrf24_DefaultConfiguration(); 
@@ -130,22 +154,24 @@ CE_Enable();
     while (1)
     {
 if (nrf24_DataAvailable() == 1) {
-            
+
             while ((nrf24_ReadReg(0x17) & 0x01) == 0) {
-                
-                nrf24_Receive((uint8_t *)&rxData, 11); 
-                
+
+                nrf24_Receive((uint8_t *)&rxData, 11);
+
                 if (rxData.Target_ID == MY_NODE_ID) {
-                    
-                    if (rxData.Cmd_Type == CMD_RELAY_CTRL) {
+
+                    if (rxData.Cmd_Type == CMD_SET_TARGET_TEMP) {
+                        target_temp = rxData.data[0]; 
+                    }
+                    else if (rxData.Cmd_Type == CMD_RELAY_CTRL) {
                         if (rxData.data[0] == 0x00) {
                             if (rxData.data[1] == 0x01) {
                                 LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
                             } else {
                                 LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
                             }
-                        } 
-                        
+                        }
                         else if (rxData.data[0] == 0x01) {
                             if (rxData.data[1] == 0x01) {
                                 LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_7);
@@ -153,24 +179,27 @@ if (nrf24_DataAvailable() == 1) {
                                 LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_7);
                             }
                         }
-                  }
-                    
+                    }
                     else if (rxData.Cmd_Type == CMD_DHT_11_TEMPRATURE) {
-                        
+
                         DHT11_Start();
                         Presence = DHT11_Check_Response();
-                        
+
                         if (Presence == 1) {
-                            Rh_byte1   = DHT11_Read(); 
-                            Rh_byte2   = DHT11_Read(); 
-                            Temp_byte1 = DHT11_Read(); 
-                            Temp_byte2 = DHT11_Read(); 
-                            SUM        = DHT11_Read(); 
-                            
+                            Rh_byte1   = DHT11_Read();
+                            Rh_byte2   = DHT11_Read();
+                            Temp_byte1 = DHT11_Read();
+                            Temp_byte2 = DHT11_Read();
+                            SUM        = DHT11_Read();
+
                             if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
+                                
+                                int new_PID_Speed = Calculate_PID(Temp_byte1);
+                                LL_TIM_OC_SetCompareCH1(TIM3, new_PID_Speed);
+                                
                                 reData.startByte = START_BYTE;
                                 reData.stopByte = STOP_BYTE;
-                                reData.Cmd_Type = CMD_DHT_11_TEMPRATURE; 
+                                reData.Cmd_Type = CMD_DHT_11_TEMPRATURE;
                                 reData.Payload_Lenght = 11;
                                 reData.Target_ID = ID_GATEWAY;
                                 reData.Sender_ID = MY_NODE_ID;
@@ -182,18 +211,17 @@ if (nrf24_DataAvailable() == 1) {
                                 
                                 LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_0);
                                 nrf24_Transmit((uint8_t *)&reData, sizeof(Telemetry_Frame));
-                                nrf24_AwakeForRx(); 
-                                CE_Enable(); 
+                                nrf24_AwakeForRx();
+                                CE_Enable();
                             }
                         }
                         else {
-                            LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1); 
+                            LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_1);
                         }
-                    } 
-                } 
+                    }
+                }
             } // RX FIFO Boşaltma Döngüsü Sonu
-        } 
-        
+        }
         LL_mDelay(10);
     /* USER CODE END WHILE */
 
@@ -237,8 +265,13 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_Init1msTick(64000000);
   LL_SetSystemCoreClock(64000000);
+
+   /* Update the time base */
+  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
