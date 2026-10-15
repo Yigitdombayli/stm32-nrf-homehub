@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+rWDsvuzLTg=",
+  "dgSpecHash": "u8VS+16pzCU=",
   "success": true,
   "projectFilePath": "/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.Core/IoTBackend.Core.csproj",
   "expectedPackageFiles": [
-    "/home/dombayli/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.11/microsoft.aspnetcore.app.ref.10.0.11.nupkg.sha512"
+    "/home/dombayli/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.12/microsoft.aspnetcore.app.ref.10.0.12.nupkg.sha512"
   ],
   "logs": []
 }

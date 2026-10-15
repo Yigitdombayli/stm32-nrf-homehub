@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2WirRyXCZzE=",
+  "dgSpecHash": "n2I8HLvsCqM=",
   "success": true,
   "projectFilePath": "/home/dombayli/STM32CubeIDE/FreeRTOS/stm32-nrf-homehu/Application/IoTBackend.API/IoTBackend.API.csproj",
   "expectedPackageFiles": [
@@ -69,7 +69,7 @@
     "/home/dombayli/.nuget/packages/system.composition.runtime/9.0.0/system.composition.runtime.9.0.0.nupkg.sha512",
     "/home/dombayli/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
     "/home/dombayli/.nuget/packages/system.io.ports/10.0.11/system.io.ports.10.0.11.nupkg.sha512",
-    "/home/dombayli/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.11/microsoft.aspnetcore.app.ref.10.0.11.nupkg.sha512"
+    "/home/dombayli/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.12/microsoft.aspnetcore.app.ref.10.0.12.nupkg.sha512"
   ],
   "logs": []
 }
